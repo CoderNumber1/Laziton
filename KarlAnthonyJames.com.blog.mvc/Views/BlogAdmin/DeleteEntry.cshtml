@@ -1,0 +1,31 @@
+﻿@model BlogEngine.Core.DataModels.Entry
+
+@{
+    ViewBag.Title = "Delete Entry ?";
+}
+
+<h2>Confirm</h2>
+
+<div class="row">
+    <div class="span16">
+        <div class="block-message error">
+            <p>You are about to permenantly delete this entry, are you sure you want to continue?</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span16">
+        <a class="btn danger" href="@Url.RouteUrl("BlogDeleteConfirm", new { id = Model.Id })">Delete</a>
+    </div>
+</div>
+
+<div class="blogEntry" style="margin-top:20px;">
+    <h4>@Model.Title</h4>
+    <br />
+    <div class="row" style="margin-top:10px;">
+        <div class="span16">
+            <p>@Model.EntryText</p>
+        </div>
+    </div>
+</div>

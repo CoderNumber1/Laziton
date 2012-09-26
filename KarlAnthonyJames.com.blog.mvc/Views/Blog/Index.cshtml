@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "My Blog";
+    ViewBag.ActivePage = "Blog";
+}
+
+@section Scripts
+{
+    @if (false)
+    { 
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.1.0.js"></script>
+        <script type="text/javascript" src="/Scripts/sammy.js"></script>
+    }
+    
+<script type="text/javascript">
+    function BlogViewModel() {
+        var self = this;
+
+        self.Entries = ko.observableArray(null);
+        self.EntryDetail = ko.observable(null);
+
+        self.LoadEntry = function (id) {
+            self.Entries(null);
+
+            $.getJSON('@Url.Action("GetJSONEntry")', { Id: id }, function (entry) {
+                var mappedEntry = new BlogEntry(entry);
+                mappedEntry.ShowComments = true;
+
+                $.getJSON('@Url.Action("GetJSONComments")', { entryId: id }, function (comments) {
+                    var mappedComments = $.map(comments, function (val, i) {
+                        return new BlogComment(val);
+                    });
+
+                    mappedEntry.Comments(mappedComments);
+                });
+
+                self.EntryDetail(mappedEntry);
+            });
+        };
+
+        self.LoadEntries = function () {
+            self.EntryDetail(null);
+
+            $.getJSON('@Url.Action("GetJSONEntries")', function (entries) {
+                var mappedEntries = $.map(entries, function (val, i) {
+                    return new BlogEntry(val);
+                });
+                self.Entries(mappedEntries);
+            });
+        };
+
+        Sammy(function () {
+            this.get('#/Entry/:Id', function () {
+                self.LoadEntry(this.params.Id);
+            });
+
+            this.get('#/Entries', function () {
+                self.LoadEntries();
+            });
+
+//            this.get('#/Comment/:Id', function () {
+//                $('.commentArea[data-entryid=' + params.Id + ']').first().show();
+//            });
+
+            this.get('', function () {
+                self.LoadEntries();
+            });
+        }).run();
+    }
+
+    function BlogEntry(entry) {
+        var self = this;
+
+        self.Id = entry.Id;
+        self.Title = entry.Title;
+        self.CreateDate = entry.CreateDateAsString;
+        self.EntryText = entry.EntryText;
+        self.Url = '#/Entry/' + entry.Id;
+        self.CommentUrl = '#/Comment/' + entry.Id;
+
+        self.ShowComments = ko.observable(false);
+        self.Comments = ko.observableArray();
+        
+        self.EditUrl = ko.computed(function () {
+            var base = '@Url.RouteUrl("BlogEdit", new { Id = 99 })';
+
+            return base.replace('99', this.Id);
+        }, this);
+
+        self.CommentCommitUrl = ko.computed(function(){
+            var base = '@Url.RouteUrl("BlogComment", new { Id = 99 })';
+
+            return base.replace('99', this.Id);
+        });
+
+        self.ShowCommentArea = function () {
+            $('.commentArea[data-entryid=' + this.Id + ']').first().show();
+        }
+    }
+
+    function BlogComment(comment) {
+        var self = this;
+
+        self.Id = comment;
+        self.Content = comment.Content;
+        self.CommentDate = comment.CommentDateAsString;
+        self.By = comment.By;
+    }
+
+    $('document').ready(function () {
+        ko.applyBindings(new BlogViewModel());
+    });
+</script>
+}
+
+@Html.Partial("~/Areas/Blog/Views/Shared/Templates/Entry.cshtml")
+
+<div data-bind="template: {name: 'Entry-Template', foreach:Entries}"></div>
+<div data-bind="template:{name: 'Entry-Template', data: EntryDetail}"></div>

@@ -1,0 +1,47 @@
+﻿@model BlogEngineMvc.ViewModels.CreateEntryViewModel
+
+@{
+    ViewBag.Title = "Create Entry";
+    ViewBag.ActiveBlogPage = "CreateEntry";
+}
+
+@section Scripts
+{
+    
+    
+    <script type="text/javascript" src="@Url.Content("~/Content/CKEditor/ckeditor.js")"></script>
+    <link rel="Stylesheet" type="text/css" href="@Url.Content("~/Content/CKEditor/contents.css")" />
+}
+
+<h2>Create Entry</h2>
+
+@using (Html.BeginForm())
+{ 
+    <div class="row">
+        <div class="span16">
+            <h3>Title</h3>
+            <br />
+            @Html.TextBoxFor(m => m.Title, new { @class = "span6" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="span16">
+            <h3>Body</h3>
+            <br />
+            @Html.TextAreaFor(m => m.EntryText, 20, 200, new { id = "txtNewEntry", @class = "ckeditor" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="span16">
+            <h3>Tags</h3>
+            <br />
+            @Html.TextBoxFor(m => m.Tags, new { @class = "span6" })
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:20px;">
+        <div class="span15">
+            <input type="submit" value="Create" class="btn primary span2" />
+        </div>
+    </div>
+}

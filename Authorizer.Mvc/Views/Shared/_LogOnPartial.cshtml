@@ -1,0 +1,15 @@
+﻿@if(Request.IsAuthenticated) {
+    <div class="pull-right">
+        <div class="pull-left">
+            <p style="color:White;margin-top:12px;">Welcome <strong>@User.Identity.Name</strong>! </p>
+        </div>
+        <ul class="nav pull-right">
+            <li>@Html.RouteLink("[Log Off]", "Authorization", new { action = "logoff" })</li>
+        </ul>
+    </div>
+}
+else {
+    <ul class="nav pull-right">
+        <li>@Html.RouteLink("[Log On]", "Authorization", new { action = "logon" })</li>
+    </ul>
+}

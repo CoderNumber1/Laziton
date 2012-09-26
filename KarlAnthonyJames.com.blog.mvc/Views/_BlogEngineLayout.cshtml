@@ -1,0 +1,37 @@
+﻿@using KarlAnthonyJames.Com.Util.Links;
+@using MvcWebDev.Auth.Security.Session;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts
+{
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.1.0.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/sammy.js")"></script>
+@*@if (UserSessions.CurrentSession.PermissionLevel == UserLevels.Admin)
+{     
+<style type="text/css">
+    body
+    {
+        padding-top: 100px;
+    }
+</style>
+    }*@
+    
+    @RenderSection("Scripts", false)
+}
+
+@section SubNav
+{
+@*@if (UserSessions.CurrentSession.PermissionLevel == UserLevels.Admin)
+{ 
+<div class="fill">
+    <div class="container">
+        @Html.BuildNavigation((string)ViewBag.ActiveBlogPage, "BlogSubNav")
+    </div>
+</div>
+    }*@
+}
+
+@RenderBody()

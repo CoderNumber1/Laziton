@@ -1,0 +1,42 @@
+﻿@using MvcWebDev.Auth.Security.Session;
+
+<script type="text/html" id="Entry-Template">
+<div data-bind="if: $data" class="blogEntry" style="margin-top:20px; border-bottom:2px,solid,Gray;">
+    <div class="row">
+        <a data-bind="attr: { href: Url }"><h2 data-bind="text: Title"></h2></a>
+    </div>
+    <div class="row">
+        <div class="altert alert-success span2" style="margin-left:0px;padding-left:10px;width:200px;">
+            <span data-bind="text: CreateDate"></span>
+        </div>
+    </div>
+    <div class="row" style="margin-top:10px;">
+        <div class="span10" data-bind="html: EntryText"></div>
+    </div>
+@if (UserSessions.CurrentSession.PermissionLevel == UserLevels.Admin)
+{ 
+    <div data-bind="if: EditUrl()" class="row">
+        <a data-bind="attr: { href: EditUrl }" class="btn">Edit</a>
+    </div>
+}
+    <div data-bind="if: ShowComments" class="row">
+        <div data-bind="foreach:Comments" class="span6" style="background-color:Gray;">
+                <div data-bind="text: Content" style="background-color:White;margin:10px;"></div>
+                <div style="margin-left:30px;">
+                    <span data-bind="text: CommentDate"></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;By:&nbsp;
+                    <span data-bind="text: By"></span>
+                </div>
+        </div>
+    </div>
+
+    <div class="row" data-bind="if: ShowComments">
+        <div class="span8">
+            <textarea class="commentArea" data-bind="attr: {'data-entryid': Id}" style="display:none;"></textarea>
+            <a class="btn" data-bind="click: ShowCommentArea"></a>
+        </div>
+    </div>
+</div>
+</script>
+
+ @*<span data-bind="if: EditedDate">&nbsp;&nbsp;&nbsp;&nbsp;Edited: <span data-bind="text: EditedDateAsString"></span></span>*@

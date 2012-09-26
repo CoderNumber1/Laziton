@@ -1,0 +1,20 @@
+﻿@model Authorizer.DataModels.UserAlias
+
+@{
+    ViewBag.Title = "Register Alias";
+}
+
+<h2>RegisterAlias</h2>
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal", action = Url.RouteUrl("Authorization", new {action = "RegisterAlias"}) }))
+{ 
+<div class="control-group">
+    <div class="control-label">@Html.LabelFor(m => m.Name)</div>
+    <div class="controls">
+        @Html.TextBoxFor(m => m.Name)
+    </div>
+</div>
+<div class="form-actions">
+    <input type="submit" class="btn" value="Submit" />
+</div>
+}

@@ -1,0 +1,46 @@
+﻿@model BlogEngine.Core.DataModels.Entry
+           
+@using MvcWebDev.Auth.Security.Session;
+
+@{
+    bool ShowComments = false;
+    
+    if(ViewBag.ShowComments != null)
+    {
+        ShowComments = ViewBag.ShowComments;    
+    }
+}
+
+<div class="blogEntry" style="margin-top:20px; border-bottom:2px,solid,Gray;">
+    <h2>@Model.Title</h2>
+    <br />
+    <div class="altert alert-success span8">
+        Created: @Model.CreateDate.ToString("MMMM d yyyy h:mm:ss tt") @(Model.EditedDate != null ? string.Format("Edited: {0}", Model.EditedDate.Value.ToString("MMMM d yyyy h:mm:ss tt")))
+    </div>
+    <div class="row" style="margin-top:10px;">
+        <div class="span16">
+            @Html.Raw(Model.EntryText)
+        </div>
+    </div>
+    @if (UserSessions.CurrentSession.PermissionLevel == UserLevels.Admin)
+    {
+        <div class="row">
+            <div class="span2">
+                <a class="btn" href="@Url.RouteUrl("BlogEdit", new { id = Model.Id })">Edit</a>
+            </div>
+            <div class="span2">
+                <a class="btn danger" href="@Url.RouteUrl("BlogDelete", new { id = Model.Id })">Delete</a>
+            </div>
+        </div>
+    }
+</div>
+
+@if(ShowComments)
+{
+    foreach(var comment in Model.Comments)
+    {
+        <div class="blogComment" style="margin-top:10px;">
+            @comment
+        </div>
+    }
+}

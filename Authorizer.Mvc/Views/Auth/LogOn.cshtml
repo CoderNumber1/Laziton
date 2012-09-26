@@ -1,0 +1,40 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "Log On";
+}
+
+@using DotNetOpenAuth.Mvc;
+@using DotNetOpenAuth.OpenId.RelyingParty;
+
+@section Scripts
+{
+    <link rel="Stylesheet" type="text/css" href="@Url.RouteUrl("OpenIdResources", new {resourceType = "RelyingParty", resourceName = "OpenIdSelector.css"})" />
+    <link rel="Stylesheet" type="text/css" href="@Url.RouteUrl("OpenIdResources", new {resourceType = "RelyingParty", resourceName = "OpenIdAjaxTextBox.css"})" />
+    <script src="@Url.Content("~/Scripts/jquery.cookie.js")" type="text/javascript"></script>
+    @MvcHtmlString.Create(Html.OpenIdSelectorStyles())
+}
+
+<fieldset>
+<legend>LogOn</legend>
+@using (Html.BeginForm("LogOnPostAssertion", "Auth", FormMethod.Post, new { action = Url.RouteUrl("Authorization", new { action = "LogOnPostAssertion" }) }))
+{
+    @Html.Hidden("ReturnUrl", Request.QueryString["ReturnUrl"], new { id = "ReturnUrl" })
+    @Html.Hidden("openid_openidAuthData")
+    <div>
+        @MvcHtmlString.Create(Html.OpenIdSelector(new SelectorButton[] {
+            new SelectorProviderButton("https://www.google.com/accounts/o8/id", Url.Content("~/Content/images/google.gif")),
+            new SelectorOpenIdButton(Url.Content("~/Content/images/openid.gif")),
+            }))
+        <div class="helpDoc">
+            <p>
+                If you have logged in previously, click the same button you did last time!!
+            </p>
+        </div>
+    </div>
+}
+</fieldset>
+@{     
+    var options = new OpenIdSelector();
+    options.TextBox.LogOnText = "Log On";
+}
+@MvcHtmlString.Create(Html.OpenIdSelectorScripts(options, null))

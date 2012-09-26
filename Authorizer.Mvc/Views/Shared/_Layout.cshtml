@@ -1,0 +1,16 @@
+﻿@section Head
+{
+<link href="@Url.RouteUrl("AuthorizationResources", new { resourceType = "Styles", resourceName = "openid-shadow.css" })" rel="Stylesheet" type="text/css" />
+<link href="@Url.RouteUrl("AuthorizationResources", new { resourceType = "Styles", resourceName = "openid.css" })" rel="Stylesheet" type="text/css" />
+<script src="@Url.RouteUrl("AuthorizationResources", new { resourceType = "Scripts", resourceName = "openid-en.js" })" type="text/javascript"></script>
+<script src="@Url.RouteUrl("AuthorizationResources", new { resourceType = "Scripts", resourceName = "openid-jquery.js" })" type="text/javascript"></script>
+}
+
+@section Foot
+{
+<script type="text/javascript">
+    $('document').ready(function () {
+        openid.init('openid_identifier');
+    });
+</script>
+}
