@@ -9,8 +9,15 @@
 {
     
     
-    <script type="text/javascript" src="@Url.Content("~/Content/CKEditor/ckeditor.js")"></script>
-    <link rel="Stylesheet" type="text/css" href="@Url.Content("~/Content/CKEditor/contents.css")" />
+    @*<script type="text/javascript" src="@Url.Content("~/Content/CKEditor/ckeditor.js")"></script>
+    <link rel="Stylesheet" type="text/css" href="@Url.Content("~/Content/CKEditor/contents.css")" />*@
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/wmd.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/showdown.js")"></script>
+}
+
+@section BottomScripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/wmd.js")"></script>
 }
 
 <h2>Create Entry</h2>
@@ -28,7 +35,13 @@
         <div class="span16">
             <h3>Body</h3>
             <br />
-            @Html.TextAreaFor(m => m.EntryText, 20, 200, new { id = "txtNewEntry", @class = "ckeditor" })
+            <div id="wmd-button-bar" class="wmd-panel"></div>
+            <br/>
+            @Html.TextAreaFor(m => m.EntryText, 20, 200, new { id = "wmd-input", @class = "wmd-panel" })
+            <br/>
+            <div id="wmd-preview" class="wmd-panel"></div>
+            <br/>
+            <div id="wmd-output" class="wmd-panel"></div>
         </div>
     </div>
     <div class="row">

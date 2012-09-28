@@ -7,8 +7,17 @@
 
 @section Scripts
 {    
-    <script type="text/javascript" src="@Url.Content("~/Content/CKEditor/ckeditor.js")"></script>
-    <link rel="Stylesheet" type="text/css" href="@Url.Content("~/Content/CKEditor/contents.css")" />
+    @*<script type="text/javascript" src="@Url.Content("~/Content/CKEditor/ckeditor.js")"></script>
+    <link rel="Stylesheet" type="text/css" href="@Url.Content("~/Content/CKEditor/contents.css")" />*@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/showdown.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/wmd.js")"></script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/wmd.css")" />
+
+    <script type="text/javascript">
+        $('document').ready(function () {
+            $('#txtEntry').wmd();
+        });
+    </script>
 }
 
 <h2>Edit Entry</h2>
@@ -28,7 +37,7 @@
         <div class="span16">
             <h3>Body</h3>
             <br />
-            @Html.TextAreaFor(m => m.EntryText, 20, 200, new { id = "txtEntry", @class = "ckeditor" })
+            @Html.TextAreaFor(m => m.EntryText, 20, 200, new { id = "txtEntry" })
         </div>
     </div>
     <div class="row">
