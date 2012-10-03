@@ -1,0 +1,57 @@
+﻿@using KarlAnthonyJames.Com.Util.Links;
+@using MvcWebDev.Auth.Helpers;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    
+    <link rel="Stylesheet" type="text/css" href="@Url.Content("~/Content/Bootstrap.css")" />
+    <script src="@Url.Content("~/Scripts/Site.js")" type="text/javascript"></script>
+    <link href='http://fonts.googleapis.com/css?family=Julee' rel='stylesheet' type='text/css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            // Disable caching of AJAX responses
+            cache: false
+        });
+    </script>
+
+    <style type="text/css">
+        .navbar-inner
+        {
+            background-color:#088A08;
+            background-image:none;
+            background-repeat:no-repeat;
+            filter:none;
+        }
+            
+        .navbar .nav > li > a
+        {
+            color:#fff;
+        }
+    </style>
+
+    @RenderSection("Scripts", false)
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <h3 style="font-family:'Julee', Cursive;"><a href="#" class="brand">age quod agis</a></h3>
+                @Html.BuildNavigation((string)ViewBag.ActivePage, "MainNav")
+                
+
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+        @RenderSection("SubNav", false)
+    </div>
+    <div class="container">
+        @RenderBody()
+    </div>
+</body>
+</html>

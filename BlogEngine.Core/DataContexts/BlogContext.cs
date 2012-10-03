@@ -5,6 +5,7 @@ using System.Text;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using BlogEngine.Core.DataModels;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlogEngine.Core.DataContexts
 {

@@ -13,7 +13,7 @@ using MvcWebDev.Auth.Security.Attributes;
 
 namespace BlogEngineMvc.Controllers
 {
-    //[RoleLevelAuthorization(UserLevels.Admin)]
+    [Authorize(Roles="BlogAdmin")]
     public class BlogAdminController : BlogConrtollerBase
     {
         private IBlogEngine BlogEngine { get { return SQLBlogEngine.Engine; } }
@@ -23,15 +23,12 @@ namespace BlogEngineMvc.Controllers
             return this.RedirectToAction("Index", "Blog", new { area = "Blog" });
         }
 
-        [RoleAuth(MvcWebDev.Auth.Security.Session.UserLevels.Admin)]
         public ActionResult CreateEntry()
         {
             return View(new CreateEntryViewModel());
         }
 
         [HttpPost]
-        //[ValidateInput(false)]
-        [RoleAuth(MvcWebDev.Auth.Security.Session.UserLevels.Admin)]
         public ActionResult CreateEntry(CreateEntryViewModel entryViewModel)
         {
             MarkupSanitizer sanitizer = new MarkupSanitizer();
@@ -51,14 +48,12 @@ namespace BlogEngineMvc.Controllers
             return this.RedirectHome();
         }
 
-        [RoleAuth(MvcWebDev.Auth.Security.Session.UserLevels.Admin)]
         public ActionResult EditEntry(int id)
         {
             return View(BlogEngine.GetBlogEntry(id));
         }
 
         [HttpPost]
-        [RoleAuth(MvcWebDev.Auth.Security.Session.UserLevels.Admin)]
         public ActionResult EditEntry(Entry entry)
         {
             MarkupSanitizer sanitizer = new MarkupSanitizer();
@@ -73,14 +68,12 @@ namespace BlogEngineMvc.Controllers
             return this.RedirectHome();
         }
 
-        [RoleAuth(MvcWebDev.Auth.Security.Session.UserLevels.Admin)]
         public ActionResult DeleteEntry(int id)
         {
             Session["EntryToDelete"] = id;
             return View(BlogEngine.GetBlogEntry(id));
         }
 
-        [RoleAuth(MvcWebDev.Auth.Security.Session.UserLevels.Admin)]
         public ActionResult ConfirmDeleteEntry(int id)
         {
             if ((int)Session["EntryToDelete"] == id)

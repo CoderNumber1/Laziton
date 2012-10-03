@@ -22,7 +22,6 @@ namespace BlogEngineMvc
 
         public override void RegisterArea(System.Web.Mvc.AreaRegistrationContext context, IApplicationBus bus)
         {
-            //base.RegisterArea(context, bus);
             base.RegisterAreaEmbeddedResources();
 
             context.MapRoute("BlogEdit"

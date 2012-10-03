@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+  <Section Name="SQLConnections">
+    <Entry Name="BlogString">Data Source=ANTHONY-DEV;Initial Catalog=karlanthonyjames_com_Blog;user id=WebAdmin;password=WebAdmin;</Entry>
+    <Entry Name="Authorizer">Data Source=Anthony-Dev;Initial Catalog=Laziton_Authorizer;user id=WebAdmin;password=WebAdmin;</Entry>
+    <!--<BlogString>Data Source=ANTHONY-LAPTOP\AnthonyDev;Initial Catalog=karlanthonyjames_com_Blog;user id=WebAdmin;password=WebAdmin;</BlogString>
+    <Authorizer>Data Source=ANTHONY-LAPTOP\AnthonyDev;Initial Catalog=Laziton_Authorizer;user id=WebAdmin;password=WebAdmin;</Authorizer>-->
+  </Section>
+  <Section Name="Pages">
+    <Entry Name="NavPath">NavLinks.xml</Entry>
+  </Section>
+  <Section Name="Routing">
+    <Entry Name="IgnorableControllers">Blog</Entry>
+    <Entry Name="IgnorableActions"></Entry>
+  </Section>
+</Configuration>
