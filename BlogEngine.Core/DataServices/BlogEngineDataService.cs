@@ -132,6 +132,8 @@ namespace BlogEngine.Core.DataServices
                 Comment.CommentDate = comment.CommentDate;
                 Comment.Content = comment.Content;
                 Comment.EntryId = comment.EntryId;
+
+                this.Repository.Save();
             }
         }
 

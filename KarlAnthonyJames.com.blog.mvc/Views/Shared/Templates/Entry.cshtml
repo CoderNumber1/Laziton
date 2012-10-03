@@ -13,7 +13,7 @@
     <div class="row" style="margin-top:10px;">
         <div class="span10" data-bind="html: EntryText"></div>
     </div>
-@if (UserSessions.CurrentSession.PermissionLevel == UserLevels.Admin)
+@if (User.IsInRole("BlogAdmin"))
 { 
     <div data-bind="if: EditUrl()" class="row">
         <a data-bind="attr: { href: EditUrl }" class="btn">Edit</a>
@@ -33,7 +33,8 @@
     <div class="row" data-bind="if: ShowComments">
         <div class="span8">
             <textarea class="commentArea" data-bind="attr: {'data-entryid': Id}" style="display:none;"></textarea>
-            <a class="btn" data-bind="click: ShowCommentArea"></a>
+            <a class="btn" data-bind="click: Comment" id="btnDisplayCommentArea">Comment</a>
+            <a class="btn" data-bind="click: CancelComment" id="btnCancelComment" style="display: none;">Cancel</a>
         </div>
     </div>
 </div>

@@ -78,6 +78,7 @@
         self.CommentUrl = '#/Comment/' + entry.Id;
 
         self.ShowComments = ko.observable(false);
+        self.CreateComment = ko.observable(false);
         self.Comments = ko.observableArray();
         
         self.EditUrl = ko.computed(function () {
@@ -92,8 +93,29 @@
             return base.replace('99', this.Id);
         });
 
-        self.ShowCommentArea = function () {
-            $('.commentArea[data-entryid=' + this.Id + ']').first().show();
+        self.Comment = function () {
+            if (!self.CreateComment()) {
+                $('.commentArea[data-entryid=' + this.Id + ']').first().val('').show();
+                self.CreateComment(true);
+            }
+            else {
+                //We'll submit the comment here.
+                var commentText = $('.commentArea[data-entryid=' + this.Id + ']').first().val();
+
+                //Send the comment.
+                $.ajax({
+                    url: self.CommentCommitUrl()
+                    , data: { entryId: self.Id, comment: commentText }
+                });
+
+                //Then hide the comment area.
+                self.CancelComment();
+            }
+        }
+
+        self.CancelComment = function () {
+            self.CreateComment(false);
+            $('.commentArea[data-entryid=' + this.Id + ']').first().val('').hide();
         }
     }
 

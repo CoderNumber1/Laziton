@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<NavigationStructure>
+  <NavGroup Name="MainNav">
+    <Link Name="HomePage">
+      <Text>Home</Text>
+      <Controller>Home</Controller>
+      <Action>Index</Action>
+    </Link>
+    <Link Name="Blog" UseNamedRoute="true" RouteName="BlogShort">
+      <Text>Blog</Text>
+      <Action>Index</Action>
+      <Area>Blog</Area>
+    </Link>
+  </NavGroup>
+  <NavGroup Name="BlogSubNav">
+    <Link Name="CreateEntry" UseNamedRoute="true" RouteName="BlogAdmin">
+      <Text>Create</Text>
+      <Action>CreateEntry</Action>
+      <Area>Blog</Area>
+    </Link>
+  </NavGroup>
+</NavigationStructure>
