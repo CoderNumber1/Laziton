@@ -13,9 +13,9 @@ namespace BlogEngine.Core.DataServices
     {
         IBlogRepository Repository { get; }
 
-        bool IsBloggerRegistered(int UserId);
+        bool IsBloggerRegistered(string userName);
         void RegisterBlogger(Blogger blogger);
-        Blogger GetBlogger(int userId);
+        Blogger GetBlogger(string userName);
 
         IEnumerable<Blog> GetBlogs(int bloggerId);
         void CreateBlog(Blog blog);
@@ -25,6 +25,7 @@ namespace BlogEngine.Core.DataServices
         IEnumerable<Entry> GetBlogEntries(int blogId);
         IEnumerable<Entry> GetBlogEntries(int blogId, DateTime entryDate, bool? assending = true);
         IEnumerable<Entry> GetBlogEntries(int blogId, int page, int entriesPerPage);
+        IEnumerable<Entry> GetNonPublishedEntries(int blogId);
 
         IEnumerable<Comment> GetBlogComments(int entryId);
         IEnumerable<Comment> GetBlogCommentResponses(int commentId);

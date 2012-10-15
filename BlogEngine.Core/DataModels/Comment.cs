@@ -12,6 +12,8 @@ namespace BlogEngine.Core.DataModels
         public int Id { get; set; }
         public string Content { get; set; }
         public string By { get; set; }
+        public string ByUserId { get; set; }
+        public string ByEmail { get; set; }
         public bool CanRespond { get; set; }
         public DateTime CommentDate { get; set; }
 

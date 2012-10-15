@@ -12,20 +12,40 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
+    <fieldset class="form-horizontal">
         <legend>Association Form</legend>
         <p>
             You've successfully authenticated with <strong>@ViewBag.ProviderDisplayName</strong>.
             Please enter a user name for this site below and click the Confirm button to finish
             logging in.
         </p>
-        <ol>
+
+        <div class="control-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(m => m.EmailAddress, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(m => m.EmailAddress)
+                @Html.ValidationMessageFor(m => m.EmailAddress)
+            </div>
+        </div>
+        @*<ol>
             <li class="name">
                 @Html.LabelFor(m => m.UserName)
                 @Html.TextBoxFor(m => m.UserName)
                 @Html.ValidationMessageFor(m => m.UserName)
             </li>
-        </ol>
+            <li class="name">
+                @Html.LabelFor(m => m.EmailAddress)
+                @Html.TextBoxFor(m => m.EmailAddress)
+                @Html.ValidationMessageFor(m => m.EmailAddress)
+            </li>
+        </ol>*@
         @Html.HiddenFor(m => m.ExternalLoginData)
         <input type="submit" value="Register" />
     </fieldset>

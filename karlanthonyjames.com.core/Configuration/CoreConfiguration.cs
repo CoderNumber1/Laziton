@@ -23,6 +23,28 @@ namespace KarlAnthonyJames.Com.Core.Configuration
             get { return this.Config.GetInt("Blog", "BlogId"); }
         }
 
+        public int ContentSourceId
+        {
+            get { return this.Config.GetInt("Content", "ContentSource"); }
+        }
+
+        public string ContentUser
+        {
+            get { return this.Config.GetString("Content", "ContentSource", "ContentUser"); }
+        }
+
+        public int MainContentId
+        {
+            get { return this.Config.GetInt("Content", "MainContentId"); }
+            set { this.Config.SetValue("Content", "MainContentId", value.ToString()); }
+        }
+
+        public int SelectedDailyBlogId
+        {
+            get { return this.Config.GetInt("Content", "SelectedEntry"); }
+            set { this.Config.SetValue("Content", "SelectedEntry", value.ToString()); }
+        }
+
         public string NavPath
         {
             get { return this.Config.GetString("Pages", "NavPath"); }

@@ -9,36 +9,55 @@ using BlogEngineMvc.ViewModels;
 using KarlAnthonyJames.Com.Core.Configuration;
 using MvcWebDev.Auth.Security.Session;
 using KarlAnthonyJames.Com.Core.Links;
+using KarlAnthonyJames.Com.Core.Profiles;
+using GravatarHelper.Extensions;
 
 namespace BlogEngineMvc.Controllers
 {
     [AllowAnonymous]
-    public class BlogController : BlogConrtollerBase
+    public class BlogController : JSONGetsController
     {
-        private IBlogEngine BlogEngine { get { return SQLBlogEngine.Engine; } }
-
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View();
+            ViewBag.EntryId = id != null ? id.Value : 0;
+            return View("Index");
         }
 
-        public JsonResult GetJSONEntries()
+        public ActionResult EntryShortcut(string title)
         {
-            var Entries = BlogEngine.GetBlogEntries(CoreConfiguration.Instance.BlogId).ToList();
-            return new JsonResult() { Data = Entries, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            int? EntryId = null;
+            var Entry = base.BlogEngine.GetBlogEntry(title, CoreConfiguration.Instance.BlogId);
+
+            if (Entry != null)
+                EntryId = Entry.Id;
+
+            return Index(EntryId);
         }
 
-        public JsonResult GetJSONEntry(int Id)
-        {
-            var Entry = BlogEngine.GetBlogEntry(Id);
-            return new JsonResult() { Data = Entry, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
+        //public JsonResult GetJSONEntries()
+        //{
+        //    var Entries = BlogEngine.GetBlogEntries(CoreConfiguration.Instance.BlogId).ToList();
+        //    return new JsonResult() { Data = Entries, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        //}
 
-        public JsonResult GetJSONComments(int entryId)
-        {
-            var Comments = BlogEngine.GetComments(entryId);
-            return new JsonResult() { Data = Comments, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
+        //public JsonResult GetJSONEntry(int Id)
+        //{
+        //    var Entry = BlogEngine.GetBlogEntry(Id);
+        //    return new JsonResult() { Data = Entry, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        //}
+
+        //public JsonResult GetJSONComments(int entryId)
+        //{
+        //    UrlHelper helper = new UrlHelper(Request.RequestContext);
+        //    var Comments = BlogEngine.GetComments(entryId);
+
+        //    Comments.ToList().ForEach(comment =>
+        //        {
+        //            comment.ByEmail = helper.Gravatar(SiteProfile.GetProfileEmail(comment.ByUserId), 40, "identicon", GravatarHelper.GravatarRating.PG);
+        //        });
+
+        //    return new JsonResult() { Data = Comments, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        //}
 
         public void Comment(int entryId, string comment)
         {
@@ -50,9 +69,17 @@ namespace BlogEngineMvc.Controllers
             EntryComment.CanRespond = true;
 
             if (Request.IsAuthenticated)
+            {
+                SiteProfile Profile = SiteProfile.GetProfile(User.Identity.Name);
+
+                EntryComment.ByUserId = User.Identity.Name;
                 EntryComment.By = User.Identity.Name;
+                EntryComment.ByEmail = Profile.Email; 
+            }
             else
+            {
                 EntryComment.By = "Anonymous";
+            }
 
             BlogEngine.LeaveComment(EntryComment);
         }

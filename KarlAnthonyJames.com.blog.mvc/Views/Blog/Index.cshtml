@@ -12,6 +12,8 @@
     }
     
 <script type="text/javascript">
+    var ViewModel = null;
+
     function BlogViewModel() {
         var self = this;
 
@@ -38,14 +40,19 @@
         };
 
         self.LoadEntries = function () {
-            self.EntryDetail(null);
+            if ('@ViewBag.EntryId' != '0' && '@ViewBag.EntryId' != '') {
+                self.LoadEntry('@ViewBag.EntryId');
+            }
+            else {
+                self.EntryDetail(null);
 
-            $.getJSON('@Url.Action("GetJSONEntries")', function (entries) {
-                var mappedEntries = $.map(entries, function (val, i) {
-                    return new BlogEntry(val);
+                $.getJSON('@Url.Action("GetJSONEntries")', function (entries) {
+                    var mappedEntries = $.map(entries, function (val, i) {
+                        return new BlogEntry(val);
+                    });
+                    self.Entries(mappedEntries);
                 });
-                self.Entries(mappedEntries);
-            });
+            }
         };
 
         Sammy(function () {
@@ -56,10 +63,6 @@
             this.get('#/Entries', function () {
                 self.LoadEntries();
             });
-
-//            this.get('#/Comment/:Id', function () {
-//                $('.commentArea[data-entryid=' + params.Id + ']').first().show();
-//            });
 
             this.get('', function () {
                 self.LoadEntries();
@@ -110,6 +113,8 @@
 
                 //Then hide the comment area.
                 self.CancelComment();
+
+                ViewModel.LoadEntry(self.Id);
             }
         }
 
@@ -126,10 +131,12 @@
         self.Content = comment.Content;
         self.CommentDate = comment.CommentDateAsString;
         self.By = comment.By;
+        self.Gravatar = comment.ByEmail;
     }
 
     $('document').ready(function () {
-        ko.applyBindings(new BlogViewModel());
+        ViewModel = new BlogViewModel();
+        ko.applyBindings(ViewModel);
     });
 </script>
 }

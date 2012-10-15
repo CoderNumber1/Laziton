@@ -14,13 +14,24 @@ using MvcWebDev.Auth.Security.Attributes;
 namespace BlogEngineMvc.Controllers
 {
     [Authorize(Roles="BlogAdmin")]
-    public class BlogAdminController : BlogConrtollerBase
+    public class BlogAdminController : JSONGetsController
     {
         private IBlogEngine BlogEngine { get { return SQLBlogEngine.Engine; } }
 
         public ActionResult RedirectHome()
         {
             return this.RedirectToAction("Index", "Blog", new { area = "Blog" });
+        }
+
+        public ActionResult Drafts()
+        {
+            return View("~/Areas/Blog/Views/Blog/Index.cshtml");
+        }
+
+        public override JsonResult GetJSONEntries()
+        {
+            var Entries = BlogEngine.GetNonPublishedEntries(CoreConfiguration.Instance.BlogId).ToList();
+            return new JsonResult() { Data = Entries, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         public ActionResult CreateEntry()
@@ -40,6 +51,7 @@ namespace BlogEngineMvc.Controllers
                 BlogId = CoreConfiguration.Instance.BlogId,
                 EntryText = entryViewModel.EntryText,
                 IsRawHtml = true,
+                Published = entryViewModel.Published,
                 Tags = entryViewModel.Tags,
                 Title = entryViewModel.Title,
                 CreateDate = DateTime.Now
@@ -61,6 +73,7 @@ namespace BlogEngineMvc.Controllers
             var OriginalEntry = BlogEngine.GetBlogEntry(entry.Id);
             OriginalEntry.Title = sanitizer.Sanitize(entry.Title);
             OriginalEntry.EntryText = sanitizer.Sanitize(entry.EntryText);
+            OriginalEntry.Published = entry.Published;
             OriginalEntry.IsRawHtml = true; //we need to consider getting rid of this, probably not needed anymore.
             OriginalEntry.Tags = sanitizer.Sanitize(entry.Tags);
             OriginalEntry.EditedDate = DateTime.Now;

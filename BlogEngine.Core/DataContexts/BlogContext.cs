@@ -26,6 +26,7 @@ namespace BlogEngine.Core.DataContexts
             #region Blogger Table Setup
             modelBuilder.Entity<Blogger>().ToTable("Blogger");
             modelBuilder.Entity<Blogger>().Property(blogger => blogger.Id).HasColumnName("Blogger_ID").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Blogger>().Property(blogger => blogger.UserName).HasColumnName("UserName");
             modelBuilder.Entity<Blogger>().Property(blogger => blogger.UserId).HasColumnName("User_ID");
             modelBuilder.Entity<Blogger>().Property(blogger => blogger.DisplayName).HasColumnName("Display_Name");
             modelBuilder.Entity<Blogger>().Property(blogger => blogger.Signature).HasColumnName("Blogger_Signature");
@@ -45,6 +46,8 @@ namespace BlogEngine.Core.DataContexts
             modelBuilder.Entity<Entry>().Property(entry => entry.Id)
                 .HasColumnName("Entry_ID")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Entry>().Property(entry => entry.Published)
+                .HasColumnName("Entry_Published");
             modelBuilder.Entity<Entry>().Property(entry => entry.IsRawHtml)
                 .HasColumnName("Entry_Is_Raw_Html");
             modelBuilder.Entity<Entry>().Property(entry => entry.Title)
@@ -71,6 +74,10 @@ namespace BlogEngine.Core.DataContexts
             modelBuilder.Entity<Comment>().Property(comment => comment.By)
                 .HasColumnName("Comment_Author")
                 .IsRequired();
+            modelBuilder.Entity<Comment>().Property(comment => comment.ByUserId)
+                .HasColumnName("Author_UserId");
+            modelBuilder.Entity<Comment>().Property(comment => comment.ByEmail)
+                .HasColumnName("Author_Email");
             modelBuilder.Entity<Comment>().Property(comment => comment.Content)
                 .HasColumnName("Comment_Content")
                 .IsRequired();

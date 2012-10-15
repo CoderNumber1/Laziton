@@ -38,6 +38,15 @@
             @Html.TextBoxFor(m => m.Tags, new { @class = "span6" })
         </div>
     </div>
+    
+    <div class="row">
+        <div class="span16">
+            <label for="chkDraft">
+                <span>Publish</span>
+                @Html.CheckBoxFor(m => m.Published, new { id = "chkDraft"})
+            </label>
+        </div>
+    </div>
 
     <div class="row" style="margin-top:20px;">
         <div class="span15">

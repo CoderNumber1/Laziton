@@ -38,6 +38,14 @@ namespace BlogEngine.Core
             }
         }
 
+        Entry IBlogEngine.GetBlogEntry(string title, int blogId)
+        {
+            using (IBlogService DataService = new BlogEngineDataService(this.Config))
+            {
+                return DataService.Repository.GetEntries().FirstOrDefault(blogEntry => blogEntry.Title.ToLower() == title.ToLower() && blogEntry.BlogId == blogId && blogEntry.Published);
+            }
+        }
+
         void IBlogEngine.AddEntry(DataModels.Entry blogEntry)
         {
             using (IBlogService DataService = new BlogEngineDataService(this.Config))
@@ -99,11 +107,11 @@ namespace BlogEngine.Core
         }
 
 
-        bool IBlogEngine.IsBloggerRegistered(int userId)
+        bool IBlogEngine.IsBloggerRegistered(string userName)
         {
             using (IBlogService DataService = new BlogEngineDataService(this.Config))
             {
-                return DataService.IsBloggerRegistered(userId);
+                return DataService.IsBloggerRegistered(userName);
             }
         }
 
@@ -115,13 +123,13 @@ namespace BlogEngine.Core
             }
         }
 
-        PresentationModels.BloggerPModel IBlogEngine.GetBloggerInfo(int userId)
+        PresentationModels.BloggerPModel IBlogEngine.GetBloggerInfo(string userName)
         {
             using (IBlogService DataService = new BlogEngineDataService(this.Config))
             {
                 var Blogger = new PresentationModels.BloggerPModel()
                 {
-                    BloggerInfo = DataService.GetBlogger(userId)
+                    BloggerInfo = DataService.GetBlogger(userName)
                 };
 
                 Blogger.Blogs = DataService.GetBlogs(Blogger.BloggerInfo.Id);
@@ -135,6 +143,62 @@ namespace BlogEngine.Core
             using (IBlogService DataService = new BlogEngineDataService(this.Config))
             {
                 return DataService.GetBlogEntries(blogId).OrderByDescending(entry => entry.CreateDate);
+            }
+        }
+
+        IEnumerable<Entry> IBlogEngine.GetBlogEntriesByTag(int blogId, string tag)
+        {
+            using (IBlogService DataService = new BlogEngineDataService(this.Config))
+            {
+                return DataService.Repository.GetEntries().Where(entry => entry.BlogId == blogId && entry.Tags.ToUpper().Contains(tag.ToUpper())).ToList();
+            }
+        }
+
+        IEnumerable<Entry> IBlogEngine.GetNonPublishedEntries(int blogId)
+        {
+            using (IBlogService DataService = new BlogEngineDataService(this.Config))
+            {
+                return DataService.GetNonPublishedEntries(blogId).OrderByDescending(entry => entry.CreateDate);
+            }
+        }
+
+        IEnumerable<Blog> IBlogEngine.GetBlogs(int bloggerId)
+        {
+            using (IBlogService DataService = new BlogEngineDataService(this.Config))
+            {
+                return DataService.GetBlogs(bloggerId);
+            }
+        }
+
+        Blog IBlogEngine.GetBlog(int blogId)
+        {
+            using (IBlogService DataService = new BlogEngineDataService(this.Config))
+            {
+                return DataService.Repository.GetBlogs().FirstOrDefault(blog => blog.Id == blogId);
+            }
+        }
+
+        Blog IBlogEngine.GetBlog(string blogName, int bloggerId)
+        {
+            using (IBlogService DataService = new BlogEngineDataService(this.Config))
+            {
+                return DataService.Repository.GetBlogs().FirstOrDefault(blog => blog.BlogName.ToLower() == blogName.ToLower() && blog.BloggerId == bloggerId);
+            }
+        }
+
+        void IBlogEngine.CreateBlog(Blog blog)
+        {
+            using (IBlogService DataService = new BlogEngineDataService(this.Config))
+            {
+                DataService.CreateBlog(blog);
+            }
+        }
+
+        void IBlogEngine.DeleteBlog(int blogId)
+        {
+            using (IBlogService DataService = new BlogEngineDataService(this.Config))
+            {
+                DataService.DeleteBlog(blogId);
             }
         }
     }

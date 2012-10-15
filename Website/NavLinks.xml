@@ -18,5 +18,10 @@
       <Action>CreateEntry</Action>
       <Area>Blog</Area>
     </Link>
+    <Link Name="Drafts" UseNamedRoute="true" RouteName="BlogAdmin">
+      <Text>Drafts</Text>
+      <Action>Drafts</Action>
+      <Area>Blog</Area>
+    </Link>
   </NavGroup>
 </NavigationStructure>

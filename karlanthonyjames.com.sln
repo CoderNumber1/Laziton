@@ -1,7 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarlAnthonyJames.Com", "karlanthonyjames.com\KarlAnthonyJames.Com.csproj", "{AECB8678-A7E7-4866-BF67-73F699467711}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarlAnthonyJames.Com.Core", "karlanthonyjames.com.core\KarlAnthonyJames.Com.Core.csproj", "{FD528D24-250D-4324-8DFF-4BEC9524AF6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarlAnthonyJames.Com.Blog.Mvc", "KarlAnthonyJames.com.blog.mvc\KarlAnthonyJames.Com.Blog.Mvc.csproj", "{B7CB7C50-E6CE-42AB-A6D7-DAA559B27F78}"
@@ -30,10 +28,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AECB8678-A7E7-4866-BF67-73F699467711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AECB8678-A7E7-4866-BF67-73F699467711}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AECB8678-A7E7-4866-BF67-73F699467711}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AECB8678-A7E7-4866-BF67-73F699467711}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD528D24-250D-4324-8DFF-4BEC9524AF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD528D24-250D-4324-8DFF-4BEC9524AF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD528D24-250D-4324-8DFF-4BEC9524AF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU

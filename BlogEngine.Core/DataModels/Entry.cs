@@ -12,6 +12,7 @@ namespace BlogEngine.Core.DataModels
     {
         public int Id { get; set; }
         public bool IsRawHtml { get; set; }
+        public bool Published { get; set; }
         public string Title { get; set; }
         [AllowHtml]
         public string EntryText { get; set; }

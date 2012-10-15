@@ -11,6 +11,7 @@ namespace Website
             filters.Add(new HandleErrorAttribute());
             filters.Add(new InitializeSimpleMembershipAttribute());
             filters.Add(new AuthorizeAttribute());
+            filters.Add(new GravatarAttribute());
         }
     }
 }

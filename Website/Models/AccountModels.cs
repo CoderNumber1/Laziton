@@ -34,26 +34,19 @@ namespace Website.Models
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
+        [DataAnnotationsExtensions.Email(ErrorMessage = "Must be a valid email address")]
+        [Display(Name = "Email Address")]
+        public string EmailAddress { get; set; }
+
         public string ExternalLoginData { get; set; }
     }
 
-    public class LocalPasswordModel
+    public class ManageAccountModel
     {
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
-        public string OldPassword { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "New password")]
-        public string NewPassword { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Emaill Address")]
+        [DataAnnotationsExtensions.Email(ErrorMessage = "Invalid Email Address")]
+        public string EmailAddress { get; set; }
     }
 
     public class LoginModel

@@ -51,11 +51,11 @@ namespace BlogEngine.Core.DataServices
         {
             if (assending.Value)
             {
-                return this.Repository.GetEntries().Where(Entry => Entry.BlogId == blogId && Entry.CreateDate >= entryDate).ToList();
+                return this.Repository.GetEntries().Where(Entry => Entry.BlogId == blogId && Entry.Published && Entry.CreateDate >= entryDate).ToList();
             }
             else
             {
-                return this.Repository.GetEntries().Where(Entry => Entry.BlogId == blogId && Entry.CreateDate <= entryDate).ToList();
+                return this.Repository.GetEntries().Where(Entry => Entry.BlogId == blogId && Entry.Published && Entry.CreateDate <= entryDate).ToList();
             }
         }
 
@@ -91,6 +91,7 @@ namespace BlogEngine.Core.DataServices
                 Entry.EditedDate = entry.EditedDate;
                 Entry.EntryText = entry.EntryText;
                 Entry.IsRawHtml = entry.IsRawHtml;
+                Entry.Published = entry.Published;
                 Entry.Tags = entry.Tags;
                 Entry.Title = entry.Title;
 
@@ -128,6 +129,8 @@ namespace BlogEngine.Core.DataServices
                 Comment = this.Repository.CreateComment();
 
                 Comment.By = comment.By;
+                Comment.ByEmail = comment.ByEmail;
+                Comment.ByUserId = comment.ByUserId;
                 Comment.CanRespond = comment.CanRespond;
                 Comment.CommentDate = comment.CommentDate;
                 Comment.Content = comment.Content;
@@ -153,9 +156,9 @@ namespace BlogEngine.Core.DataServices
             }
         }
 
-        bool IBlogService.IsBloggerRegistered(int UserId)
+        bool IBlogService.IsBloggerRegistered(string UserName)
         {
-            var Blogger = this.Repository.GetBloggers().FirstOrDefault(b => b.UserId == UserId);
+            var Blogger = this.Repository.GetBloggers().FirstOrDefault(b => b.UserName.ToUpper() == UserName.ToUpper());
 
             return Blogger != null;
         }
@@ -168,6 +171,7 @@ namespace BlogEngine.Core.DataServices
             {
                 Blogger = this.Repository.CreateBlogger();
 
+                Blogger.UserName = blogger.UserName;
                 Blogger.DisplayName = blogger.DisplayName;
                 Blogger.Signature = blogger.Signature;
                 Blogger.UserId = blogger.UserId;
@@ -176,9 +180,9 @@ namespace BlogEngine.Core.DataServices
             }
         }
 
-        DataModels.Blogger IBlogService.GetBlogger(int userId)
+        DataModels.Blogger IBlogService.GetBlogger(string userName)
         {
-            var Blogger = this.Repository.GetBloggers().FirstOrDefault(b => b.UserId == userId);
+            var Blogger = this.Repository.GetBloggers().FirstOrDefault(b => b.UserName.ToUpper() == userName.ToUpper());
 
             return Blogger;
         }
@@ -233,7 +237,21 @@ namespace BlogEngine.Core.DataServices
 
             if (Blog != null)
             {
-                Result = this.Repository.GetEntries().Where(e => e.BlogId == blogId).ToList();
+                Result = this.Repository.GetEntries().Where(e => e.BlogId == blogId && e.Published).ToList();
+            }
+
+            return Result;
+        }
+
+        IEnumerable<DataModels.Entry> IBlogService.GetNonPublishedEntries(int blogId)
+        {
+            List<DataModels.Entry> Result = new List<DataModels.Entry>();
+
+            var Blog = this.Repository.GetBlogs().FirstOrDefault(b => b.Id == blogId);
+
+            if (Blog != null)
+            {
+                Result = this.Repository.GetEntries().Where(e => e.BlogId == blogId && !e.Published).ToList();
             }
 
             return Result;
@@ -245,7 +263,7 @@ namespace BlogEngine.Core.DataServices
 
             if (page > 0 && entriesPerPage > 0)
             {
-                Result = this.Repository.GetEntries().Where(b => b.BlogId == blogId)
+                Result = this.Repository.GetEntries().Where(b => b.BlogId == blogId && b.Published)
                     .OrderBy(b => b.CreateDate)
                     .ThenBy(b => b.EditedDate)
                     .Skip(page * entriesPerPage - entriesPerPage)

@@ -24,6 +24,10 @@ namespace BlogEngineMvc
         {
             base.RegisterAreaEmbeddedResources();
 
+            context.MapRoute("BlogShortcut"
+                , "Blog/Entry/{title}"
+                , new { controller = "blog", action = "EntryShortcut", area = "blog" });
+
             context.MapRoute("BlogEdit"
                 , "Blog/Edit/{id}"
                 , new { controller = "blogadmin", action = "EditEntry", area = "blog", id = UrlParameter.Optional });

@@ -1,4 +1,4 @@
-﻿@model Website.Models.LocalPasswordModel
+﻿@model Website.Models.ManageAccountModel
 @{
     ViewBag.Title = "Manage Account";
 }
@@ -11,13 +11,21 @@
 
 <p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
 
-@if (ViewBag.HasLocalPassword)
-{
-    @Html.Partial("_ChangePasswordPartial")
-}
-else
-{ 
-    @Html.Partial("_SetPasswordPartial")
+@using (Html.BeginForm("Manage", "Account")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset class="form-horizontal">
+        <legend>Manage your account settings</legend>
+        <div class="control-group">
+            @Html.LabelFor(m => m.EmailAddress, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(m => m.EmailAddress)
+                @Html.ValidationMessageFor(m => m.EmailAddress)
+            </div>
+        </div>
+        <input type="submit" value="Save" />
+    </fieldset>
 }
 
 <section id="externalLogins">
