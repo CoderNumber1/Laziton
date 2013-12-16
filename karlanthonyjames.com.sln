@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_DLLs", "_DLLs", "{19CFDC52
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{960238BB-A0C2-427E-B888-09783F12E05F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentManagement.Core", "ContentManagement.Core\ContentManagement.Core.csproj", "{CDA7C3CB-31AB-46E7-B4E8-87F31B0AA217}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{960238BB-A0C2-427E-B888-09783F12E05F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{960238BB-A0C2-427E-B888-09783F12E05F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{960238BB-A0C2-427E-B888-09783F12E05F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA7C3CB-31AB-46E7-B4E8-87F31B0AA217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA7C3CB-31AB-46E7-B4E8-87F31B0AA217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA7C3CB-31AB-46E7-B4E8-87F31B0AA217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA7C3CB-31AB-46E7-B4E8-87F31B0AA217}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
